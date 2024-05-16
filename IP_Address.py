@@ -1,3 +1,4 @@
+# We had many networks, and one of our jobs was to search for available IP addresses for new users because we didn't use DHCP. I wrote this program to check for any available IP addresses within our domain ranges
 import ipaddress
 import ping3
 import time
