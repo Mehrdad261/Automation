@@ -1,16 +1,14 @@
+# Before use this code yu hould install Excel-module by : " Install-Module -Name ImportExcel -Scope CurrentUser -Force "
 try {
-    # Import the Active Directory module
     Import-Module ActiveDirectory -ErrorAction Stop
-    
-    # Import the ImportExcel module
     Import-Module ImportExcel -ErrorAction Stop
 
-    # Set the threshold for inactivity in days
-    $thresholdDays = 30
+    # Set the inactivityDays for inactivity in days
+    $inactivityDays = 30
 
-    # Get the current date and calculate the threshold date
+    # Get the current date and calculate the inactivity date
     $currentDate = Get-Date
-    $thresholdDate = $currentDate.AddDays(-$thresholdDays)
+    $thresholdDate = $currentDate.AddDays(-$inactivityDays)
 
     # Initialize an empty array to hold the report data
     $report = @()
@@ -51,7 +49,7 @@ try {
     if ($report.Count -gt 0) {
         $report | Format-Table -AutoSize
     } else {
-        Write-Output "All users have logged in within the last $thresholdDays days."
+        Write-Output "All users have logged in within the last $inactivityDays days."
     }
 
     # Export the report to an Excel file
