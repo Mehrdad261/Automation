@@ -1,4 +1,4 @@
-# Before use this code yu hould install Excel-module by : " Install-Module -Name ImportExcel -Scope CurrentUser -Force "
+# Before use this code you hould install Excel-module by : " Install-Module -Name ImportExcel -Scope CurrentUser -Force "
 try {
     Import-Module ActiveDirectory -ErrorAction Stop
     Import-Module ImportExcel -ErrorAction Stop
