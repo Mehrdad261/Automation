@@ -1,5 +1,5 @@
-﻿function install_updates() {
-    # check system is running as administrator or not
+function Install-Updates {
+    # Check if the script is running as an administrator
     if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
         Write-Host "This script must be run as an administrator."
         Start-Sleep -Seconds 6
@@ -37,7 +37,7 @@
         $updater = $installer.CreateUpdateInstaller()
         $updater.Updates = $updatesToInstall
         
-        Write-Host "Installing updates ..."
+        Write-Host "Installing updates..."
         $result = $updater.Install()
 
         switch ($result.ResultCode) {
@@ -50,13 +50,22 @@
                 if ($restartPrompt.ToLower() -eq 'y') {
                     Restart-Computer
                 } else {
-                    Write-Host "The system will be updated after your manually restart it..."
+                    Write-Host "The system will be updated after you manually restart it..."
                 }
             }
             3 { Write-Host "Installation failed" }
             4 { Write-Host "Installation completed with errors" }
             5 { Write-Host "Installation canceled" }
-            6 { Write-Host "Installation requires a reboot to complete" }
+            6 { 
+                Write-Host "Installation requires a reboot to complete"
+                
+                $restartPrompt = Read-Host "Do you want to restart the computer now? (Y/N)"
+                if ($restartPrompt.ToLower() -eq 'y') {
+                    Restart-Computer
+                } else {
+                    Write-Host "Please restart the computer to complete the installation."
+                }
+            }
             default { Write-Host "Unknown installation result: $($result.ResultCode)" }
         }
     } else {
@@ -66,7 +75,4 @@
     Start-Sleep -Seconds 10
 }
 
-install_updates
-
-
-
+Install-Updates
